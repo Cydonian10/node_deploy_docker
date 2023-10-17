@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: api
+    build: 
+      context: .
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    volumes:
+      - ./src:/usr/src/src
+      - /usr/src/src/node_modules
+    depends_on:
+      - postgres
+    command: npm run dev 
+
+
+  postgres:
+    container_name: db
+    image: postgres:13
+    environment:
+     - POSTGRES_DB=db_docker
+     - POSTGRES_USER=gabriel
+     - POSTGRES_PASSWORD=123456
+    ports:
+      - '5432:5432'
+    # volumes:
+    #   - ./postgres_data:/var/lib/postgresql/data
+      

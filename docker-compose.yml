@@ -10,8 +10,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/usr/src/src
-      - /usr/src/src/node_modules
+      - ./:/app
+      - /app/node_modules
     depends_on:
       - postgres
     command: npm run dev 

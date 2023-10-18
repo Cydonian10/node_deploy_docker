@@ -1,13 +1,12 @@
 FROM node:16.20.2-alpine3.18
 
-WORKDIR /usr/src
+WORKDIR /app
 
 COPY package*.json ./
 
 #RUN npm ci --only=production
 RUN npm install 
 #--frozen-lockfile
-
 #COPY tsconfig.json ./
 
 COPY . .
@@ -16,7 +15,10 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD [ "node","dist/app.js" ]
+RUN npx prisma generate
+
+CMD ["node","dist/app.js" ]
+
 
 
 # FROM node:16.20.2-alpine3.18 as deps

@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --respawn --clear src/app.ts",
+    "dev": " npm run deploy && tsnd --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "node dist/app.js",
-    "deploy": "prisma migrate dev --name init && prisma migrate deploy"
+    "start": "npm run deploy && node dist/app.js",
+    "deploy": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",

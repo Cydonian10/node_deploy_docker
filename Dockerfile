@@ -17,7 +17,7 @@ EXPOSE 3000
 
 RUN npx prisma generate
 
-CMD ["node","dist/app.js" ]
+CMD ["npm","start" ]
 
 
 

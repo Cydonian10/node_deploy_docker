@@ -13,8 +13,6 @@ COPY . .
 
 RUN npm run build
 
-ENV DATABASE_URL="value"
-
 EXPOSE 3000
 
 RUN npx prisma generate

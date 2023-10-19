@@ -1,5 +1,8 @@
 import express from "express";
 import { prisma } from "./data/postgres";
+import { config } from "dotenv";
+
+config();
 
 (async () => {
   await main();

@@ -5,8 +5,10 @@ services:
     container_name: api
     build: 
       context: .
+    environment:
+      - PORT=${PORT}
     ports:
-      - 3000:3000
+      - "${PORT}:${PORT}"
     env_file:
       - .env
     volumes:

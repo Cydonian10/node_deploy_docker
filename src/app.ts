@@ -23,6 +23,6 @@ async function main() {
   });
 
   app.listen(process.env.PORT, () => {
-    console.log("[api] listen port 3000");
+    console.log("[api] listen port ", process.env.PORT);
   });
 }

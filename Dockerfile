@@ -1,50 +1,37 @@
-FROM node:16.20.2-alpine3.18
+FROM node:16.20.2-alpine3.18 as deps
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-#RUN npm ci --only=production
-RUN npm install 
-#--frozen-lockfile
-#COPY tsconfig.json ./
+RUN npm ci
+
+
+FROM node:16.20.2-alpine3.18 as builder
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
 RUN npm run build
 
+FROM node:16.20.2-alpine3.18 as runner
+
 EXPOSE 3000
 
-RUN npx prisma generate
+WORKDIR /app
 
-CMD ["npm","start" ]
+COPY package.json package-lock.json ./
+COPY start.sh /start.sh
+COPY ./prisma .
+RUN chmod +x /start.sh
 
+RUN npm ci --only=production
 
+COPY --from=builder /app/dist ./dist
 
-# FROM node:16.20.2-alpine3.18 as deps
-# WORKDIR /app
+#RUN npx prisma generate
 
-
-# COPY package*.json ./
-# RUN  npm install --frozen-lockfile
-
-
-# FROM node:16.20.2-alpine3.18 as build
-# WORKDIR /app
-
-# COPY --from=deps /app/node_modules ./node_modules
-
-# COPY . .
-# RUN npm run build
-
-# FROM node:16.20.2-alpine3.18 as runner
-
-# WORKDIR /app
-
-# COPY package*.json ./
-# RUN npm install --prod
-# COPY --from=build /app/dist ./dist
-
-# EXPOSE 3000
-
-# CMD [ "node","dist/app" ]
+CMD [ "/start.sh" ]
